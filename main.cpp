@@ -4,35 +4,61 @@
 #include<math.h>
 #include<unistd.h>
 
-float x,y,xc=1000,yc=1200,r=1000;
+float x,y,xc=1050,yc=900,r=813, bowlerhandx, bowlerhandy = 420;
+
 void initial()  //for inital runup and bat swing
 {
 	cleardevice();
 	
 	//batsman
-	x=300;
+	x=400;
 	setfillstyle(SOLID_FILL,BLUE);
 	setcolor(WHITE);
 	circle(x-60,450,18);
 	floodfill(x-60,450,WHITE);
 	
 	//bowler
-	x=850;
-	while(x>700)
+	x=1100;
+	bowlerhandx = x+40;
+	while(x>900)
 	{
 		setfillstyle(SOLID_FILL,GREEN);
 		setcolor(WHITE);
 		circle(x,450,18);
 		floodfill(x,450,WHITE);
+		line(x,468,x,535);
+		//bowler hand
+		line(x,500,bowlerhandx,400);
+		line(x,500,x+20,540);
+		line(x,535,x+15,575);
+		line(x,535,x-15,575);
+		//ball
+		setfillstyle(SOLID_FILL,RED);
+		setcolor(WHITE);
+		circle(bowlerhandx,400,10);
+		floodfill(bowlerhandx,400,WHITE);
+		
 		
 		delay(10);
 		
+		//to overwrite
 		setfillstyle(SOLID_FILL,BLACK);
 		floodfill(x,450,BLACK);
 		setcolor(BLACK);
 		circle(x,450,18);
+		line(x,468,x,535);
+		line(x,500,bowlerhandx,400);
+		line(x,500,x+20,540);
+		line(x,535,x+15,575);
+		line(x,535,x-15,575);
+		//ball
+		setfillstyle(SOLID_FILL,BLACK);
+		floodfill(bowlerhandx,400,WHITE);
+		setcolor(BLACK);
+		circle(bowlerhandx,400,10);
 		
 		x-=2;
+		bowlerhandx-=2.8;
 	}
 	
 	//bowler last pos
@@ -40,15 +66,21 @@ void initial()  //for inital runup and bat swing
 	setcolor(WHITE);
 	circle(x,450,18);
 	floodfill(x,450,WHITE);
+    line(x,468,x,535);
+	line(x,500,bowlerhandx,400);
+	line(x,500,x+20,540);
+	line(x,535,x+15,575);
+	line(x,535,x-15,575);
+
 	
-	x=300;
+	x=500;
 }
 
 void six()  //for ball to go for a six
 {
 	initial();
 	
-	while(x<1100)  //doing this without erasing the full screen
+	while(x<1400)  //doing this without erasing the full screen
 	{
 		y = yc - sqrt(r*r - pow((x-xc),2));
 		
@@ -78,7 +110,7 @@ void four()
 main()
 {
 	int  choice, totalscore=0 ;                            
-	initwindow(1000,700);
+	initwindow(1300,700);
 	six();
    while(1)
    {
