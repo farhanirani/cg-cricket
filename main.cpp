@@ -4,7 +4,7 @@
 #include<math.h>
 #include<unistd.h>
 
-float x,y,xc=1050,yc=870,r=813, bowlerhandx, bowlerhandy = 420;
+float x,y,xc=1050,yc=870,r=813, bowlerhandx, bowlerhandy = 420, batsmanx, batsmany;
 
 void initial()  //for inital runup and bat swing
 {
@@ -16,7 +16,19 @@ void initial()  //for inital runup and bat swing
 	setcolor(WHITE);
 	circle(x,450,18);
 	floodfill(x,450,WHITE);
+	line(x,468,x,535);
+	line(x,535,x+15,575);
+	line(x,535,x-15,575);
 	
+	batsmany = 400;
+	while(batsmany < 600)
+	{
+		batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
+		line(x,500,batsmanx,batsmany);
+		delay(1);
+		batsmany+=2;
+	}
+
 	//bowler
 	x=1100;
 	bowlerhandx = x+40;
@@ -39,8 +51,7 @@ void initial()  //for inital runup and bat swing
 		circle(bowlerhandx,400,10);
 		floodfill(bowlerhandx,400,WHITE);
 		
-		
-		delay(10);
+		delay(1);
 		
 		//to overwrite
 		setfillstyle(SOLID_FILL,BLACK);
