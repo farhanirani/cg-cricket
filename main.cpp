@@ -4,7 +4,37 @@
 #include<math.h>
 #include<unistd.h>
 
-float x,y,xc=1050,yc=870,r=813, bowlerhandx, bowlerhandy = 420, batsmanx, batsmany;
+float x,y,xc=1050,yc=870,r=813, bowlerhandx, bowlerhandy = 420, batsmanx, batsmany = 430;
+float xfour=717.99, yfour=1107, rfour=740;
+float xout=611, yout=663, rout=345;
+int neg = 1;
+
+void batswing()
+{
+	setcolor(RED);
+	setlinestyle(0,0,3);
+	
+	batsmanx = 220 - neg * (sqrt(10000 - pow((500-batsmany),2)));
+	
+	line(220,500,batsmanx,batsmany);
+}
+
+void clearbat()
+{
+	line(220,500,batsmanx,batsmany);
+	
+	if(batsmany > 586){
+		neg = -1;	
+	} 
+	
+	if (neg == -1){
+		batsmany+=3.7*neg;
+	} else {
+		batsmany+=2.4*neg;
+	}
+	
+	setlinestyle(0,0,1);
+}
 
 void initial()  //for inital runup and bat swing
 {
@@ -19,22 +49,22 @@ void initial()  //for inital runup and bat swing
 	line(x,468,x,535);
 	line(x,535,x+15,575);
 	line(x,535,x-15,575);
-	
-	batsmany = 400;
-	while(batsmany < 600)
-	{
-		batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
-		line(x,500,batsmanx,batsmany);
-		delay(1);
-		batsmany+=2;
-	}
 
 	//bowler
 	x=1100;
 	bowlerhandx = x+40;
+	
 	//runup
 	while(x>900)
 	{
+		// draw the bat
+		setlinestyle(0,0,3);
+		setcolor(RED);
+		batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
+		line(220,500,batsmanx,batsmany);
+		setlinestyle(0,0,1);
+		// end bat
+		
 		setfillstyle(SOLID_FILL,GREEN);
 		setcolor(WHITE);
 		circle(x,450,18);
@@ -73,6 +103,13 @@ void initial()  //for inital runup and bat swing
 		bowlerhandx-=2.8;
 	}
 	
+	// draw bat last time
+	setlinestyle(0,0,3);
+	setcolor(RED);
+	batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
+	line(220,500,batsmanx,batsmany);
+	setlinestyle(0,0,1);
+	
 	//bowlers last pos
 	setfillstyle(SOLID_FILL,GREEN);
 	setcolor(WHITE);
@@ -106,7 +143,7 @@ void initial()  //for inital runup and bat swing
 		x-=3;
 	}
 	xc1 = 431; yc1 = 640; rc1 = 190;
-	while(x>350)
+	while(x>330)
 	{
 		y = yc1 - sqrt(rc1*rc1 - pow((x-xc1),2));
 		
@@ -114,6 +151,7 @@ void initial()  //for inital runup and bat swing
 		setcolor(WHITE);
 		circle(x,y,10);
 		floodfill(x,y,WHITE);
+		batswing();
 		
 		delay(10);
 		
@@ -121,9 +159,14 @@ void initial()  //for inital runup and bat swing
 		floodfill(x,y,WHITE);
 		setcolor(BLACK);
 		circle(x,y,10);
+		clearbat();
 		
 		x-=3;
 	}
+	
+	
+	batswing();
+	setlinestyle(0,0,1);
 	
 	//hits bat..................................
 	
@@ -158,16 +201,68 @@ void six()  //for ball to go for a six
 void four()
 {
 	initial();
+	
+	while(x<1300)  //doing this without erasing the full screen
+	{
+		y = yfour - sqrt(rfour*rfour - pow((x-xfour),2));
+		
+		setfillstyle(SOLID_FILL,RED);
+		setcolor(WHITE);
+		circle(x,y,10);
+		floodfill(x,y,WHITE);
+		
+		delay(10);
+		
+		setfillstyle(SOLID_FILL,BLACK);
+		floodfill(x,y,WHITE);
+		setcolor(BLACK);
+		circle(x,y,10);
+		
+		
+		x+=4;
+	}	
 }
+
+void out()
+{
+	initial();
+	
+	while(x<850)  //doing this without erasing the full screen
+	{
+		y = yout - sqrt(rout*rout - pow((x-xout),2));
+		
+		setfillstyle(SOLID_FILL,RED);
+		setcolor(WHITE);
+		circle(x,y,10);
+		floodfill(x,y,WHITE);
+		
+		delay(10);
+		
+		setfillstyle(SOLID_FILL,BLACK);
+		floodfill(x,y,WHITE);
+		setcolor(BLACK);
+		circle(x,y,10);
+		
+		
+		x+=4;
+	}	
+	setfillstyle(SOLID_FILL,RED);
+	setcolor(WHITE);
+	circle(x,y,10);
+	floodfill(x,y,WHITE);
+}
+
+
 
 
 main()
 {
 	int  choice, totalscore=0 ;                            
 	initwindow(1300,700);
-	six();
-   while(1)
+   while(choice!=3)
    {
+   		neg = 1;
+   		batsmany = 430;
    		system("CLS");
 		printf("\n\n                    TOTAL SCORE    :::::     %d    ",totalscore); 
 		printf("\n\n\n\n1 : SIX   2 : FOUR  3 : OUT\n\n\nEnter choice : ");
@@ -181,10 +276,10 @@ main()
 			totalscore+=4;
 		}
 		else if(choice==3) {
+			out();
 			system("CLS");
-			printf("\n\n********************   YOUR TOTAL SCORE IS  :::::    %d     *******************\n",totalscore);
-			printf("**************  GOOD GAME, WELL PLAYED!!   **********************");
-			exit(1);
+			printf("\n\n*******   YOUR SCORE IS  :::::    %d     *******\n\n",totalscore);
+			printf("*******  GOOD GAME, WELL PLAYED!!   ********");
 		}
 		
    	
