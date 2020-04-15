@@ -355,13 +355,13 @@ main()
 {
 	int  choice, totalscore=0 ;                            
 	initwindow(1300,700);
-	six();
+//	six();
    while(choice!=3)
    {
    		neg = 1;
    		batsmany = 430;
    		system("CLS");
-		printf("\n\n                    TOTAL SCORE    :::::     %d    ",totalscore); 
+		printf("                   TOTAL SCORE    :::::     %d    ",totalscore); 
 		printf("\n\n\n\n1 : SIX   2 : FOUR  3 : OUT\n\n\nEnter choice : ");
 		scanf("%d",&choice);
 		if(choice==1) {
