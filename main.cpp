@@ -28,9 +28,9 @@ void clearbat()
 	} 
 	
 	if (neg == -1){
-		batsmany+=3.7*neg;
+		batsmany+=4*neg;
 	} else {
-		batsmany+=2.4*neg;
+		batsmany+=2.2*neg;
 	}
 	
 	setlinestyle(0,0,1);
@@ -49,6 +49,8 @@ void initial()  //for inital runup and bat swing
 	line(x,468,x,535);
 	line(x,535,x+15,575);
 	line(x,535,x-15,575);
+	
+	circle(650,1450,1275);
 
 	//bowler
 	x=1100;
@@ -62,14 +64,35 @@ void initial()  //for inital runup and bat swing
 		setcolor(RED);
 		batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
 		line(220,500,batsmanx,batsmany);
-		setlinestyle(0,0,1);
 		// end bat
+		
+		//pitch
+		setlinestyle(0,0,5);
+		setcolor(WHITE);
+		line(100,580,100,500);
+		line(110,570,110,490);
+		line(120,560,120,480);
+		setcolor(GREEN);
+		line(100,600,150,550);
+		line(150,550,1100,550);
+		line(100,600,1150,600);
+		line(1150,600,1100,550);
+		// board
+		setcolor(WHITE);
+		line(550,180,550,100);
+		line(500,100,600,100);
+		line(500,50,600,50);
+		line(500,50,500,100);
+		line(600,50,600,100);
+		
+		setlinestyle(0,0,1);
 		
 		setfillstyle(SOLID_FILL,GREEN);
 		setcolor(WHITE);
 		circle(x,450,18);
 		floodfill(x,450,WHITE);
 		line(x,468,x,535);
+		
 		//bowler hand
 		line(x,500,bowlerhandx,400);
 		line(x,500,x+20,540);
@@ -108,9 +131,10 @@ void initial()  //for inital runup and bat swing
 	setcolor(RED);
 	batsmanx = 220 - sqrt(10000 - pow((500-batsmany),2));
 	line(220,500,batsmanx,batsmany);
-	setlinestyle(0,0,1);
+	
 	
 	//bowlers last pos
+	setlinestyle(0,0,1);
 	setfillstyle(SOLID_FILL,GREEN);
 	setcolor(WHITE);
 	circle(x,450,18);
@@ -120,6 +144,19 @@ void initial()  //for inital runup and bat swing
 	line(x,500,x+20,540);
 	line(x,535,x+15,575);
 	line(x,535,x-15,575);
+	
+	//pitch
+	setlinestyle(0,0,5);
+	setcolor(WHITE);
+	line(100,580,100,500);
+	line(110,570,110,490);
+	line(120,560,120,480);
+	setcolor(GREEN);
+	line(100,600,150,550);
+	line(150,550,1100,550);
+	line(100,600,1150,600);
+	line(1150,600,1100,550);
+	setlinestyle(0,0,1);
 	
 	x=bowlerhandx;
 	//ball throw   .................................
@@ -153,6 +190,7 @@ void initial()  //for inital runup and bat swing
 		floodfill(x,y,WHITE);
 		batswing();
 		
+		
 		delay(10);
 		
 		setfillstyle(SOLID_FILL,BLACK);
@@ -164,6 +202,18 @@ void initial()  //for inital runup and bat swing
 		x-=3;
 	}
 	
+	//pitch
+	setlinestyle(0,0,5);
+	setcolor(WHITE);
+	line(100,580,100,500);
+	line(110,570,110,490);
+	line(120,560,120,480);
+	setcolor(GREEN);
+	line(100,600,150,550);
+	line(150,550,1100,550);
+	line(100,600,1150,600);
+	line(1150,600,1100,550);
+	setlinestyle(0,0,1);
 	
 	batswing();
 	setlinestyle(0,0,1);
@@ -196,6 +246,22 @@ void six()  //for ball to go for a six
 		
 		x+=4;
 	}	
+	
+	settextstyle(10,0,3);
+	int i = 1;
+	while(i<101) {
+		if(i%10 <= 5) {
+			setcolor(RED);
+    		outtextxy(530,60,"SIX");
+		} else {
+			setcolor(YELLOW);
+    		outtextxy(530,60,"SIX");
+		}
+		delay(10);
+		i++;
+	}
+    
+	
 }
 
 void four()
@@ -221,6 +287,21 @@ void four()
 		
 		x+=4;
 	}	
+	
+	settextstyle(10,0,3);
+	int i = 1;
+	while(i<101) {
+		if(i%10 <= 5) {
+			setcolor(RED);
+    		outtextxy(530,60,"FOUR");
+		} else {
+			setcolor(YELLOW);
+    		outtextxy(530,60,"FOUR");
+		}
+		delay(10);
+		i++;
+	}
+	
 }
 
 void out()
@@ -250,6 +331,21 @@ void out()
 	setcolor(WHITE);
 	circle(x,y,10);
 	floodfill(x,y,WHITE);
+	
+	settextstyle(10,0,3);
+	int i = 1;
+	while(i<101) {
+		if(i%10 <= 5) {
+			setcolor(RED);
+    		outtextxy(510,60,"OUT!!");
+		} else {
+			setcolor(YELLOW);
+    		outtextxy(510,60,"OUT!!");
+		}
+		delay(10);
+		i++;
+	}
+	
 }
 
 
@@ -259,6 +355,7 @@ main()
 {
 	int  choice, totalscore=0 ;                            
 	initwindow(1300,700);
+	six();
    while(choice!=3)
    {
    		neg = 1;
@@ -288,17 +385,4 @@ main()
    getch();
 }
 
-///*	Test thu vien winbgim.h	*/
-//
-//#include <winbgim.h> 
-//
-//main(int argc, char *argv[])
-//{
-//	initwindow(300, 300);					// init window graphics
-//	setbkcolor(1);							// set background
-//   	cleardevice();
-//	setcolor(14);							// set text color
-//	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
-//	while(!kbhit()) delay(1);				// pause screen	
-//}
 
